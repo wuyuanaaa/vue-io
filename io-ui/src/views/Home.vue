@@ -55,7 +55,20 @@ export default {
       this.$socket.emit('login',{
         nickName: this.nickName
       })
+    },
+    visibilitychange() {
+      let isVisible = document.visibilityState === 'visible'
+      this.$store.dispatch('visibilitychange', isVisible)
+      if(isVisible) {
+        this.$store.dispatch('clearUnread')
+      }
     }
+  },
+  mounted() {
+    document.addEventListener('visibilitychange', this.visibilitychange)
+  },
+  beforeDestroy() {
+    document.removeEventListener('visibilitychange', this.visibilitychange)
   }
 }
 </script>

@@ -9,7 +9,9 @@ export default new Vuex.Store({
     loginStatus: false,
     nickName: '',
     users: [],
-    messageList: []
+    messageList: [],
+    isVisible: '',
+    unread: 0
   },
   mutations: {
     CHANGE_CONNECT_STATUS: (state, status) => {
@@ -26,14 +28,28 @@ export default new Vuex.Store({
     },
     SET_NICKNAME: (state, name) => {
       state.nickName = name
+    },
+    SET_VISIBLE: (state, val) => {
+      state.isVisible = val
+    },
+    ADD_UNREAD: (state) => {
+      state.unread++
+      document.title = `[${state.unread}条新消息]mao-chat`
+    },
+    CLEAR_UNREAD: (state) => {
+      state.unread = 0
+      document.title = 'mao-chat'
     }
   },
   actions: {
     SOCKET_connect({commit}) {
       commit('CHANGE_CONNECT_STATUS', true)
     },
-    SOCKET_message({commit}, data) {
+    SOCKET_message({commit, state}, data) {
       commit('ADD_MESSAGE', data)
+      if(!state.isVisible) {
+        commit('ADD_UNREAD')
+      }
     },
     SOCKET_users({commit}, data) {
       commit('SET_USERS', data.users)
@@ -48,6 +64,12 @@ export default new Vuex.Store({
       } else {
         alert(data.msg)
       }
+    },
+    visibilitychange({commit}, data) {
+      commit('SET_VISIBLE', data)
+    },
+    clearUnread({commit}) {
+      commit('CLEAR_UNREAD')
     }
   }
 })
