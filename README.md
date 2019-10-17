@@ -1,6 +1,6 @@
 # vue-io
 
-[在线demo](http://chat.yuanaaa.top)
+[在线demo](https://chat.yuanaaa.top)
 
 ## 前端 -- io-ui
 

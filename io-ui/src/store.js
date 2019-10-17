@@ -10,7 +10,7 @@ export default new Vuex.Store({
     nickName: '',
     users: [],
     messageList: [],
-    isVisible: '',
+    isVisible: true,
     unread: 0
   },
   mutations: {
